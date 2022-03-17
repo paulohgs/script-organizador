@@ -1,7 +1,9 @@
 import Foundation
 import ArgumentParser
 
-Organizer.main()
+let interface = Interface()
+
+interface.main()
 
 
 
