@@ -10,56 +10,35 @@ struct Interface: ParsableCommand {
     var doBackup: Bool
     
     mutating func run() throws {
-        if doBackup {
-            return
-        }
-        let fileManager = FileManager.default
+
         let pathURL = URL(fileURLWithPath: path)
-        
-        let result = try fileManager.contentsOfDirectory(at: pathURL, includingPropertiesForKeys: nil, options: .skipsHiddenFiles)
-        for url in result {
-            if url.absoluteString.hasSuffix("/"){
-                print(url)
+
+        if doBackup {
+
+            print("Digite o path para o diretório de backup!\nCaso nada seja digitado, será criado\nUm diretório no Documents\nPath: ", terminator: "")
+            guard let backupFolder = readLine(), let backupURL = URL(string: backupFolder) else {
+                print("Digite um caminho válido. Aplicação finalizada.")
+                return
             }
             
+            if Backup().RealizeBackup(pathBackup: pathURL) {
+                return print("Backup Realizado!")
+            } else {
+                print("Erro ao realizar backup")
+            }
+            print("\n\(backupURL)\n")
+            return
+
+        } else {
+
+            let result = Backup().listFolders(url: pathURL)
+        
+            print(result.count)
+
         }
+
+
     }
 }
 
 
-
-//class Interface {
-//
-//    func main() {
-//        menu()
-//    }
-//
-//    func menu() {
-//        print("Digite seu nome,, ou apelido, para utilização: ", terminator: "")
-//        guard let name = readLine() else {
-//            return
-//        }
-//        if name != "" {
-//            print("Seu nome é: \(name), deseja realizar a exclusão dos\nitens duplicados em qual diretório?")
-//            print("Caso haja dúvidas sobre o funcionamento,\ndigite 'help' para o menu de ajuda: ", terminator: "")
-//        } else {
-//            print("Digite um nome válido ou apelido")
-//            return
-//        }
-//        guard let option = readLine() else {
-//            return
-//        }
-//        if option.lowercased() == "help" {
-//            menuHelp()
-//        } else {
-//            print(option)
-//        }
-//    }
-//
-//    func menuHelp() {
-//        print("Instruções de uso do programa:")
-//        print("\n\n")
-//        print("")
-//
-//    }
-//}
