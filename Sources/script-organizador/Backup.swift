@@ -56,8 +56,8 @@ class Backup {
             print("\nMovendo itens para pasta de Backup...\n")
             // TODO Existe um erro e ainda está em análise, operação falha no processo!
             let testFolder = fileManager.homeDirectoryForCurrentUser.appendingPathComponent("dev/teste-script/images-1/teste.png")
-            let folderDest = backupDirectory.absoluteString + "/" + testFolder.lastPathComponent
-            try fileManager.copyItem(atPath: testFolder.absoluteString, toPath: folderDest)
+            let folderDest = backupDirectory.path + "/" + testFolder.lastPathComponent
+            try fileManager.copyItem(atPath: testFolder.path, toPath: folderDest)
             return true
 
         } catch {
