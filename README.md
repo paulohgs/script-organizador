@@ -9,15 +9,15 @@
     Script para organização de backup e exclusão de arquivos duplicados em diferentes diretórios.
 </div></div>
 
-----
+
 
 ## Pré-requisitos
-----
+
 
 - Swift 5
 
 ## Instalação
-----
+
 
 Clone este repositório para um diretório de preferência:
 
@@ -35,7 +35,7 @@ Execute o seguinte comando para atualizar o repositório e packages:
 O projeto agora está apto a funcionar devidamente na sua máquina.
 
 ## Utilização
-----
+
 
 Dentro da pasta do projeto, utilize `swift run script-organizador` com o acréscimo do diretório que vai ser organizado e true, ou false, como opção para realizar backup.
 
@@ -52,23 +52,23 @@ Exemplo sem uso de backup:
 > Neste caso será realizado apenas a operação de excluir arquivos duplicados.
 
 ## Funcionalidades
-----
+
 
 - Realizar backup.
 - Excluir arquivos duplicados em diferentes diretórios.
 
 ## Documentação
-----
+
 
 Link para a [Documentação](https://lavender-blinker-2a8.notion.site/Solution-Documentation-10e064e44b40452dad26ccc978d51215)
 
 ## Licença
-----
+
 
 [MIT](https://choosealicense.com/licenses/mit/)
 
 ## Autor
-----
+
 
 <div align="center">
 
