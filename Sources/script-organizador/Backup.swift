@@ -37,13 +37,13 @@ class Backup {
 
         if isDir! {
 
-            let userHomeDirectory = fileManager.homeDirectoryForCurrentUser
-            backupDirectory = userHomeDirectory.appendingPathComponent("Documents/Backup")
+            let  userHomeDirectory = fileManager.homeDirectoryForCurrentUser
+            backupDirectory = userHomeDirectory.appendingPathComponent("Documents/Backup\(Date())")
             print("\nDiretório de Backup não existe\nDiretório de backup será: \(backupDirectory)")
 
         } else {
 
-            backupDirectory = pathBackup.appendingPathComponent("Documents/Backup")
+            backupDirectory = pathBackup.appendingPathComponent("Documents/Backup\(Date())")
             print("\nDiretório de backup será: \(backupDirectory)\n")
 
         }
@@ -51,12 +51,13 @@ class Backup {
         do {
             
             print("\nCriando pasta de backup...")
-            try fileManager.createDirectory(at: backupDirectory, withIntermediateDirectories: false)
+            // try fileManager.createDirectory(at: backupDirectory, withIntermediateDirectories: false)
             print("Criou a pasta de backup!\n")
             print("\nMovendo itens para pasta de Backup...\n")
             // TODO Existe um erro e ainda está em análise, operação falha no processo!
-            let testFolder = fileManager.homeDirectoryForCurrentUser.appendingPathComponent("dev/teste-script")
-            try fileManager.copyItem(at: testFolder, to: backupDirectory)
+            let testFolder = fileManager.homeDirectoryForCurrentUser.appendingPathComponent("dev/teste-script/images-1/teste.png")
+            let folderDest = backupDirectory.absoluteString + "/" + testFolder.lastPathComponent
+            try fileManager.copyItem(atPath: testFolder.absoluteString, toPath: folderDest)
             return true
 
         } catch {
