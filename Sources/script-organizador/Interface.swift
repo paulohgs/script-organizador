@@ -12,21 +12,20 @@ struct Interface: ParsableCommand {
     mutating func run() throws {
 
         let pathURL = URL(fileURLWithPath: path)
-
         if doBackup {
 
             print("Digite o path para o diretório de backup!\nCaso nada seja digitado, será criado\nUm diretório no Documents\nPath: ", terminator: "")
-            guard let backupFolder = readLine(), let backupURL = URL(string: backupFolder) else {
+            guard let backupFolder = readLine() else {
                 print("Digite um caminho válido. Aplicação finalizada.")
                 return
             }
             
-            if Backup().RealizeBackup(pathBackup: pathURL) {
+            if Backup().RealizeBackup(pathToBackup: path, pathReceiveBackup: backupFolder) {
                 return print("Backup Realizado!")
             } else {
                 print("Erro ao realizar backup")
             }
-            print("\n\(backupURL)\n")
+            print("\n\(backupFolder)\n")
             return
 
         } else {

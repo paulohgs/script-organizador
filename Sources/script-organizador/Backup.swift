@@ -30,34 +30,37 @@ class Backup {
         return resultData
     }
 
-    func RealizeBackup(pathBackup: URL) -> Bool {
+    func RealizeBackup(pathToBackup: String, pathReceiveBackup: String) -> Bool {
         
         let backupDirectory: URL
-        let isDir = try? pathBackup.resourceValues(forKeys: [.isDirectoryKey]).isDirectory
+        let userFolder = fileManager.homeDirectoryForCurrentUser
+        let pathToBackupURL = URL(fileURLWithPath: pathToBackup)
+        let pathReceiveBackupURL = URL(fileURLWithPath: pathReceiveBackup)
+        let finalFolder = URL(fileURLWithPath: userFolder.path + pathToBackupURL.lastPathComponent)
+        
+        //TODO: bug apresentado na parte seguinte do codigo
+        do {
 
-        if isDir! {
+            if let _ = try finalFolder.resourceValues(forKeys: [.isDirectoryKey]).isDirectory {
+                backupDirectory = finalFolder.appendingPathComponent("Documents/Backup\(Date())")
+                print("\nDiretório para Backup não existe\nDiretório de backup será: \(backupDirectory)")
+            }
 
-            let  userHomeDirectory = fileManager.homeDirectoryForCurrentUser
-            backupDirectory = userHomeDirectory.appendingPathComponent("Documents/Backup\(Date())")
-            print("\nDiretório de Backup não existe\nDiretório de backup será: \(backupDirectory)")
-
-        } else {
-
-            backupDirectory = pathBackup.appendingPathComponent("Documents/Backup\(Date())")
-            print("\nDiretório de backup será: \(backupDirectory)\n")
-
+        } catch {
+            backupDirectory = finalFolder.appendingPathComponent("Documents/Backup\(Date())")
+            print("\nDiretório para backup será: \(backupDirectory)\n")
         }
 
         do {
             
             print("\nCriando pasta de backup...")
-            // try fileManager.createDirectory(at: backupDirectory, withIntermediateDirectories: false)
+            try fileManager.createDirectory(at: pathReceiveBackupURL, withIntermediateDirectories: false)
             print("Criou a pasta de backup!\n")
             print("\nMovendo itens para pasta de Backup...\n")
             // TODO Existe um erro e ainda está em análise, operação falha no processo!
-            let testFolder = fileManager.homeDirectoryForCurrentUser.appendingPathComponent("dev/teste-script/images-1/teste.png")
-            let folderDest = backupDirectory.path + "/" + testFolder.lastPathComponent
-            try fileManager.copyItem(atPath: testFolder.path, toPath: folderDest)
+            
+            let folderDest = pathReceiveBackupURL.path + "/" + finalFolder.lastPathComponent
+            try fileManager.copyItem(atPath: finalFolder.path, toPath: folderDest)
             return true
 
         } catch {
