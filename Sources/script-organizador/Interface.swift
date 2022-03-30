@@ -14,28 +14,25 @@ struct Interface: ParsableCommand {
         let pathURL = URL(fileURLWithPath: path)
         if doBackup {
 
-            print("Digite o path para o diretório de backup!\nCaso nada seja digitado, será criado\nUm diretório no Documents\nPath: ", terminator: "")
-            guard let backupFolder = readLine() else {
-                print("Digite um caminho válido. Aplicação finalizada.")
-                return
-            }
+            //TODO: refatorar feature de customizar diretório de backup
+            // print("Digite o path para o diretório de backup!\nCaso nada seja digitado, será criado\nUm diretório no Documents\nPath: ", terminator: "")
+            // guard let backupFolder = readLine() else {
+            //     print("Digite um caminho válido. Aplicação finalizada.")
+            //     return
+            // }
             
-            if Backup().RealizeBackup(pathToBackup: path, pathReceiveBackup: backupFolder) {
+            if Backup().RealizeBackup(pathToBackup: path) {
                 return print("Backup Realizado!")
             } else {
                 print("Erro ao realizar backup")
             }
-            print("\n\(backupFolder)\n")
             return
 
         } else {
 
-            let result = Backup().listFolders(url: pathURL)
-        
-            print(result.count)
+            print("Funcionalidade a ser implementada.")
 
         }
-
 
     }
 }

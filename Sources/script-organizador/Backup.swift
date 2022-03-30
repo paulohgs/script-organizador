@@ -30,43 +30,68 @@ class Backup {
         return resultData
     }
 
-    func RealizeBackup(pathToBackup: String, pathReceiveBackup: String) -> Bool {
+    func RealizeBackup(pathToBackup: String) -> Bool {
         
         let backupDirectory: URL
         let userFolder = fileManager.homeDirectoryForCurrentUser
         let pathToBackupURL = URL(fileURLWithPath: pathToBackup)
-        let pathReceiveBackupURL = URL(fileURLWithPath: pathReceiveBackup)
-        let finalFolder = URL(fileURLWithPath: userFolder.path + pathToBackupURL.lastPathComponent)
-        
-        //TODO: bug apresentado na parte seguinte do codigo
-        do {
+        // let pathReceiveBackupURL = URL(fileURLWithPath: pathReceiveBackup)
+        let finalFolder = URL(fileURLWithPath: userFolder.path + "/" + pathToBackupURL.lastPathComponent)
+        // print(userFolder, pathToBackupURL, pathReceiveBackupURL, finalFolder)
 
-            if let _ = try finalFolder.resourceValues(forKeys: [.isDirectoryKey]).isDirectory {
-                backupDirectory = finalFolder.appendingPathComponent("Documents/Backup\(Date())")
-                print("\nDiretório para Backup não existe\nDiretório de backup será: \(backupDirectory)")
+        // Parte responsável por determinar diretório de onde será realizado o backup
+        // TODO: tratar formato de data para que fique apenas a data e horário de forma organizada
+        backupDirectory = URL(fileURLWithPath: userFolder.path + "/Documents/Backup")
+        print("\nDiretório de Backup será: \(backupDirectory)")
+
+        do {
+            
+            print("\nCriando diretório de backup...")
+            if !(fileManager.fileExists(atPath: backupDirectory.path)) {
+                
+                try fileManager.createDirectory(atPath: userFolder.path + "/Documents/Backup", withIntermediateDirectories: false)    
+                
             }
-
-        } catch {
-            backupDirectory = finalFolder.appendingPathComponent("Documents/Backup\(Date())")
-            print("\nDiretório para backup será: \(backupDirectory)\n")
-        }
-
-        do {
-            
-            print("\nCriando pasta de backup...")
-            try fileManager.createDirectory(at: pathReceiveBackupURL, withIntermediateDirectories: false)
-            print("Criou a pasta de backup!\n")
-            print("\nMovendo itens para pasta de Backup...\n")
-            // TODO Existe um erro e ainda está em análise, operação falha no processo!
-            
-            let folderDest = pathReceiveBackupURL.path + "/" + finalFolder.lastPathComponent
-            try fileManager.copyItem(atPath: finalFolder.path, toPath: folderDest)
+            try fileManager.createDirectory(atPath: backupDirectory.path + "/\(Date())", withIntermediateDirectories: false)
+            print("\nDiretório criado!")
             return true
+
 
         } catch {
             print(error)
             return false
         }
+        
+        //TODO: bug apresentado na parte seguinte do codigo
+        // do {
+
+        //     if let _ = try finalFolder.resourceValues(forKeys: [.isDirectoryKey]).isDirectory {
+        //         backupDirectory = finalFolder.appendingPathComponent("Documents/Backup\(Date())")
+        //         print("\nDiretório para Backup não existe\nDiretório de backup será: \(backupDirectory)")
+        //     }
+
+        // } catch {
+        //     backupDirectory = finalFolder.appendingPathComponent("Documents/Backup\(Date())")
+        //     print("\nDiretório para backup será: \(backupDirectory)\n")
+        // }
+
+        // do {
+            
+        //     print("\nCriando pasta de backup...")
+        //     // try fileManager.createDirectory(at: pathReceiveBackupURL, withIntermediateDirectories: false)
+        //     print("Criou a pasta de backup!\n")
+        //     print("\nMovendo itens para pasta de Backup...\n")
+        //     // TODO Existe um erro e ainda está em análise, operação falha no processo!
+            
+        //     let folderDest = pathReceiveBackupURL.path + "/" + finalFolder.lastPathComponent
+        //     // try fileManager.copyItem(atPath: finalFolder.path, toPath: folderDest)
+        //     return true
+
+        // } catch {
+        //     print(error)
+        //     return false
+        // }
+        return true
     }
 
 }
