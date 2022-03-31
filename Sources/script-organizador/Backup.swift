@@ -31,7 +31,13 @@ class Backup {
     }
 
     func RealizeBackup(pathToBackup: String) -> Bool {
-        
+        let formatterData = DateFormatter()
+        formatterData.dateStyle = .medium
+        formatterData.timeStyle = .none
+
+        let formattedData = Date()
+        formatterData.locale = Locale(identifier: "pt_BR")
+
         let backupDirectory: URL
         let userFolder = fileManager.homeDirectoryForCurrentUser
         let pathToBackupURL = URL(fileURLWithPath: pathToBackup)
@@ -52,7 +58,7 @@ class Backup {
                 try fileManager.createDirectory(atPath: userFolder.path + "/Documents/Backup", withIntermediateDirectories: false)    
                 
             }
-            try fileManager.createDirectory(atPath: backupDirectory.path + "/\(Date())", withIntermediateDirectories: false)
+            try fileManager.createDirectory(atPath: backupDirectory.path + "/\(formattedData)", withIntermediateDirectories: false)
             print("\nDiretório criado!")
             return true
 
