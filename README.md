@@ -30,7 +30,7 @@ Então entre no diretório do projeto:
 ```
 Execute o seguinte comando para atualizar o repositório e packages:
 ```bash
-    swift update
+    swift package update
 ```
 O projeto agora está apto a funcionar devidamente na sua máquina.
 
